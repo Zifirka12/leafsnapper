@@ -32,11 +32,21 @@ def authenticate_user():
 
 
 # Пример использования
-top_plant_name = ["Роза", "Лилия", "Тюльпан", "Орхидея"]
+top_plant_name = ["Роза", "Лилия", "Тюльпан"]
 
 # Запись значений из top_plant_name в JSON файл (предполагаем, что users.json уже существует)
+try:
+    with open('plants_inventory.json', 'r') as f:
+        plants = json.load(f)
+except FileNotFoundError:
+    plants = []
+
+# Добавляем новые растения в список
+plants.extend(top_plant_name)
+
+# Записываем обновленный список в файл
 with open('plants_inventory.json', 'w') as f:
-    json.dump(top_plant_name, f, indent=4)
+    json.dump(plants, f, indent=4)
 
 # Запрашиваем имя пользователя и пароль
 if authenticate_user():
